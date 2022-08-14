@@ -4,12 +4,13 @@ import 'package:testingvariable/mapcollection.dart';
 import 'package:testingvariable/mapstringnull.dart';
 
 void main() {
-  runApp(MaterialApp(
-    home: HomePage(),
-  )
+  runApp(
+      MaterialApp(
+        home: HomePage(),
+      )
   );
   DuplicateIntegerList();
-  MapStringInt();
+  mapStringInt();
   MapStringNull();
 }
 
@@ -101,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                             color: Color.fromRGBO(66, 81, 101, 1.0))),
 
                     validator: (val) {
-                      if (!isEmailValid(val))
+                      if (!isGmailValid(val))
                         return 'Enter valid email';
                     },
                     onSaved: (val) => _email = val!,
@@ -120,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                             color: Color.fromRGBO(66, 81, 101, 1.0))),
 
                     validator: (val) {
-                      if (!isMobileNumberValid(val))
+                      if (!isMobileValid(val))
                         return 'Enter valid phone number';
                     },
                     onSaved: (val) => _phone_no = val!,
@@ -149,6 +150,17 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  bool isGmailValid(String? gmail){
+    // String pattern = ""
+    if(gmail!.endsWith("@gmail.com")&&!(gmail.startsWith("@gmail.com"))){
+        print("TrueEmail");
+        return true;
+    }else{
+      print("FalseEmail");
+      return false;
+    }
+  }
+
   bool isEmailValid(String? email) {
     String pattern = r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = RegExp(pattern);
@@ -164,24 +176,52 @@ class _HomePageState extends State<HomePage> {
     return false;
   }
 
-  bool isMobileNumberValid(String? phoneNumber) {
+  bool isMobileValid(String? phoneNum){
 
-    String regexPattern = r'^(?:[+0][1-9])?[0-9]{10,12}$';
-    var regExp = new RegExp(regexPattern);
-
-    if (phoneNumber!.length == 0) {
-      print("FalsePhone");
-      return false;
-    } else if (regExp.hasMatch(phoneNumber)) {
-      print("TruePhone");
-      if(phoneNumber!.startsWith("09")){
-        phoneNumber.replaceAll("+959", "09");
+    if(phoneNum!.length != 0 && phoneNum.startsWith("09")){
+      phoneNum.replaceAll("09", "+959");
+      if(phoneNum.length>=10){
+        print("TruePhone=>$phoneNum");
+        return true;
       }
-      return true;
+
+    }else{
+      if(phoneNum.length>=10){
+        print("TruePhone==>$phoneNum");
+        return true;
+      }
     }
-    print("False==>Phone");
+
+    // else if(phoneNum.length<=13){
+    //   if(phoneNum.startsWith("09")){
+    //     phoneNum.replaceAll("09", "+959");
+    //     print("phoneNum==>$phoneNum");
+    //   }
+    //   print("TruePhone");
+    //   print(phoneNum);
+    //   return true;
+    // }
     return false;
   }
+
+  // bool isMobileNumberValid(String? phoneNumber) {
+  //
+  //   String regexPattern = r'^(?:[+0][1-9])?[0-9]{10,12}$';
+  //   var regExp = new RegExp(regexPattern);
+  //
+  //   if (phoneNumber!.length == 0) {
+  //     print("FalsePhone");
+  //     return false;
+  //   } else if (regExp.hasMatch(phoneNumber)) {
+  //     print("TruePhone");
+  //     if(phoneNumber.startsWith("09")){
+  //       phoneNumber.replaceAll("09", "+959");
+  //     }
+  //     return true;
+  //
+  //   }
+  //   return false;
+  // }
 }
 
 
